@@ -2,14 +2,14 @@
 
 // -- Environment setup --------------------------------------------------------
 // Load the core Kohana class
-require SYSPATH . 'classes/Kohana/Core' . EXT;
+require SYSPATH.'classes/Kohana/Core'.EXT;
 
-if (is_file(APPPATH . 'classes/Kohana' . EXT)) {
+if (is_file(APPPATH.'classes/Kohana'.EXT)) {
     // Application extends the core
-    require APPPATH . 'classes/Kohana' . EXT;
+    require APPPATH.'classes/Kohana'.EXT;
 } else {
     // Load empty core extension
-    require SYSPATH . 'classes/Kohana' . EXT;
+    require SYSPATH.'classes/Kohana'.EXT;
 }
 
 /**
@@ -18,7 +18,7 @@ if (is_file(APPPATH . 'classes/Kohana' . EXT)) {
  * @link https://kohana.top/guide/using.configuration
  * @link http://www.php.net/manual/timezones
  */
-date_default_timezone_set('America/Chicago');
+date_default_timezone_set('Europe/Moscow');
 
 /**
  * Set the default locale.
@@ -78,7 +78,8 @@ if (isset($_SERVER['SERVER_PROTOCOL'])) {
  * saying "Couldn't find constant Kohana::<INVALID_ENV_NAME>"
  */
 if (isset($_SERVER['KOHANA_ENV'])) {
-    Kohana::$environment = constant('Kohana::' . strtoupper($_SERVER['KOHANA_ENV']));
+    // Kohana::$environment = constant('Kohana::'.strtoupper($_SERVER['KOHANA_ENV']));
+    Kohana::$environment = Kohana::DEVELOPMENT;
 }
 
 /**
@@ -96,14 +97,17 @@ if (isset($_SERVER['KOHANA_ENV'])) {
  * - boolean  caching     enable or disable internal caching                 false
  * - boolean  expose      set the X-Powered-By header                        false
  */
-Kohana::init([
-    'base_url' => '/kohana/',
-]);
+Kohana::init(
+    [
+        'base_url' => '/kohana/',
+        'index_file' => FALSE,
+    ]
+);
 
 /**
  * Attach the file write to logging. Multiple writers are supported.
  */
-Kohana::$log->attach(new Log_File(APPPATH . 'logs'));
+Kohana::$log->attach(new Log_File(APPPATH.'logs'));
 
 /**
  * Attach a file reader to config. Multiple readers are supported.
@@ -113,17 +117,19 @@ Kohana::$config->attach(new Config_File);
 /**
  * Enable modules. Modules are referenced by a relative or absolute path.
  */
-Kohana::modules([
-//    'auth' => MODPATH . 'auth', // Basic authentication
-//    'cache' => MODPATH . 'cache', // Caching with multiple backends
-//    'codebench' => MODPATH . 'codebench', // Benchmarking tool
-//    'database' => MODPATH . 'database', // Database access
-//    'image' => MODPATH . 'image', // Image manipulation
-//    'minion' => MODPATH . 'minion', // CLI Tasks
-//    'orm' => MODPATH . 'orm', // Object Relationship Mapping
-//    'unittest' => MODPATH . 'unittest', // Unit testing
-//    'userguide' => MODPATH . 'userguide', // User guide and API documentation
-]);
+Kohana::modules(
+    [
+           'auth' => MODPATH . 'auth', // Basic authentication
+           'cache' => MODPATH . 'cache', // Caching with multiple backends
+        //    'codebench' => MODPATH . 'codebench', // Benchmarking tool
+           'database' => MODPATH . 'database', // Database access
+        //    'image' => MODPATH . 'image', // Image manipulation
+        //    'minion' => MODPATH . 'minion', // CLI Tasks
+           'orm' => MODPATH . 'orm', // Object Relationship Mapping
+           'unittest' => MODPATH . 'unittest', // Unit testing
+           'userguide' => MODPATH . 'userguide', // User guide and API documentation
+    ]
+);
 
 /**
  * Cookie Salt
@@ -138,8 +144,10 @@ Kohana::modules([
  * Set the routes. Each route must have a minimum of a name, a URI and a set of
  * defaults for the URI.
  */
-Route::set('default', '(<controller>(/<action>(/<id>)))')
-    ->defaults([
-        'controller' => 'welcome',
-        'action' => 'index',
-    ]);
+Route::set('default', '(<controller>(/<action>(/<id>)))')->defaults(
+        [
+            'controller' => 'forms',
+            'action' => 'index',
+        ]
+    );
+Route::set('ajax', '(<controller>(/<action>(/<id>)))');

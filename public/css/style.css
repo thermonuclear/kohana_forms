@@ -1,0 +1,9 @@
+[v-cloak] {
+    display: none;
+}
+
+.el-main {
+    max-width: 1024px;
+    margin: 0 auto;
+    border: 1px solid #DCDFE6;
+}

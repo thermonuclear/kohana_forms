@@ -17,30 +17,11 @@ class Controller_Ajax extends Controller
      */
     public function action_content()
     {
-        $cache = Cache::instance();
-        $news = $cache->get('meduza_news');
-        if ($news) {
-            $news = json_decode($news, true);
-        } else {
-            $news = (new Service_Meduza())->getNews();
-            $cache->set('meduza_news', json_encode($news));
-        }
+        $meduza = new Service_Meduza();
+        $news = $meduza->getCacheNews();
+        $oneNews = $meduza->getOneRandomNews($news);
 
-        $session = Session::instance('database');
-        $showedNews = $session->get('showedNews', []);
-        $notShowedNews = array_diff_key($news, $showedNews);
-
-        if ($notShowedNews) {
-            $newsKey = array_rand($notShowedNews);
-            $result = $news[$newsKey];
-            $showedNews[$newsKey] = 1;
-            $session->set('showedNews', $showedNews);
-        } else {
-            $result = ['title' => '', 'second_title' => '', 'image' => ''];
-            $session->set('showedNews', []);
-        }
-
-        $this->response->body(json_encode($result));
+        $this->response->body(json_encode($oneNews));
     }
 
     public function action_registration()

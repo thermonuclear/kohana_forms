@@ -12,6 +12,15 @@ if (is_file(APPPATH.'classes/Kohana'.EXT)) {
     require SYSPATH.'classes/Kohana'.EXT;
 }
 
+define('VENDOR', realpath(DOCROOT.'vendor').DIRECTORY_SEPARATOR);
+require VENDOR.'autoload.php';
+require DOCROOT.'vendor/phpunit/phpunit/src/Framework/TestSuite.php';
+
+class PHPUnit_Framework_TestCase extends PHPUnit\Framework\TestSuite
+{
+
+}
+
 /**
  * Set the default time zone.
  *
@@ -124,9 +133,9 @@ Kohana::modules(
         //    'codebench' => MODPATH . 'codebench', // Benchmarking tool
         'database' => MODPATH.'database', // Database access
         //    'image' => MODPATH . 'image', // Image manipulation
-        //    'minion' => MODPATH . 'minion', // CLI Tasks
+        'minion' => MODPATH.'minion', // CLI Tasks
         // 'orm' => MODPATH.'orm', // Object Relationship Mapping
-        // 'unittest' => MODPATH.'unittest', // Unit testing
+        'unittest' => MODPATH.'unittest', // Unit testing
         // 'userguide' => MODPATH.'userguide', // User guide and API documentation
         'email' => MODPATH.'email', // E-mail
     ]

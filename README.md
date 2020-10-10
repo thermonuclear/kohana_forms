@@ -1,28 +1,18 @@
-# Kohana PHP Framework
-[![Build Status](https://travis-ci.org/kilofox/kohana.svg?branch=master)](https://travis-ci.org/kilofox/kohana) [![Telegram](https://img.shields.io/badge/Telegram-joinChat-green.svg)](https://t.me/kohana)
-
-[Kohana](http://kohana.top) is an elegant, open source, and object oriented HMVC framework built using PHP, by a team of volunteers. It aims to be swift, secure, and small.
-
-Released under an [MIT license](https://kohana.top/license), Kohana can be used legally for any open source, commercial, or personal project.
-
-## Supported versions
-| Version    | PHP Compatibility                  | Initial Release     |
-| ---------- | ---------------------------------- | ------------------- |
-| Kohana 3.3 | PHP 5.3, PHP 5.4, PHP 5.5, PHP 5.6 | October 23th, 2012  |
-| Kohana 3.4 | PHP 5.6, PHP 7.0                   | December 25th, 2018 |
-
+# Kohana PHP Framework demo web application
+Использованы: Kohana 3.4, PHP 7.0.33
 ## Documentation
-Kohana's documentation can be found at <https://kohana.top/documentation> which also contains an API browser.
+В качестве индексной страницы – страница с формами, демонстрирующими работу с ajax-частью.
+По роуту /ajax/action выполняется следующее:
+1. “content”: получает список новостей с главной страницы http://meduza.io
+. Выбирает случайную из новостей и возвращает заголовок, анонс и ссылку на изображение (если есть), взятые из Opengraph-разметки новости. При этом сохраняется упоминание этой новости для текущего клиента, чтобы при следующем запросе не возвращать те новости, что уже отдавались этому клиенту. Если на главной странице не осталось новостей, которых клиент еще не получал, очищаем список, хранящийся для этого клиента.
+2. “registration”: регистрация клиента по логину-паролю + email с проверкой уникальности логина/email
+ и надежности пароля.
+3. “login”: авторизация по логину и паролю.
+4. “logout”: разлогинивание.
+5. “forgot”: восстановление забытого пароля с верификацией через почту
+6. “exchangerate”: получает курс доллара/евро/фунта стерлингов (нужная валюта post-переменной) к рублю.
+7. “word”: получаем post-переменную word и сохраняем значение в БД.
+8. “words”: Постраничный вывод всех записей, полученных методом выше.
+9. “wordstat”: вывод самых часто встречающихся слов в words в порядку уменьшения популярности.
 
-The `userguide` module included in all Kohana releases also allows you to view the documentation locally. Once the `userguide` module is enabled in the bootstrap, it is accessible from your site via `/index.php/guide` (or just `/guide` if you are rewriting your URLs).
-
-## Contributing
-Kohana is an Open Source, community-driven project with plenty of contributors. Join them [contributing code or contributing documentation](https://github.com/kilofox/kohana/blob/master/CONTRIBUTING.md).
-
-If you've stumbled across a bug, please help us out by [reporting the bug](https://github.com/kilofox/kohana/issues/new) you have found. Simply log in or register and submit a new issue, leaving as much information about the bug as possible, e.g.
-
-* Steps to reproduce
-* Expected result
-* Actual result
-
-This will help us to fix the bug as quickly as possible, and if you'd like to fix it yourself feel free to [fork us on GitHub](https://github.com/kilofox/kohana) and submit a pull request!
+создание необходимых таблиц по роуту: /migrate/create

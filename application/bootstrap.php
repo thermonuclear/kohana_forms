@@ -99,8 +99,8 @@ if (isset($_SERVER['KOHANA_ENV'])) {
  */
 Kohana::init(
     [
-        'base_url' => '/kohana/',
-        'index_file' => FALSE,
+        'base_url' => '/',
+        'index_file' => false,
     ]
 );
 
@@ -119,15 +119,16 @@ Kohana::$config->attach(new Config_File);
  */
 Kohana::modules(
     [
-           'auth' => MODPATH . 'auth', // Basic authentication
-           'cache' => MODPATH . 'cache', // Caching with multiple backends
+        'auth' => MODPATH.'auth', // Basic authentication
+        'cache' => MODPATH.'cache', // Caching with multiple backends
         //    'codebench' => MODPATH . 'codebench', // Benchmarking tool
-           'database' => MODPATH . 'database', // Database access
+        'database' => MODPATH.'database', // Database access
         //    'image' => MODPATH . 'image', // Image manipulation
         //    'minion' => MODPATH . 'minion', // CLI Tasks
-           'orm' => MODPATH . 'orm', // Object Relationship Mapping
-           'unittest' => MODPATH . 'unittest', // Unit testing
-           'userguide' => MODPATH . 'userguide', // User guide and API documentation
+        // 'orm' => MODPATH.'orm', // Object Relationship Mapping
+        // 'unittest' => MODPATH.'unittest', // Unit testing
+        // 'userguide' => MODPATH.'userguide', // User guide and API documentation
+        'email' => MODPATH.'email', // E-mail
     ]
 );
 
@@ -138,16 +139,33 @@ Kohana::modules(
  * If you have not defined a cookie salt in your Cookie class then
  * uncomment the line below and define a preferrably long salt.
  */
-// Cookie::$salt = null;
-
+Cookie::$salt = 12345693456;
+// start session
+Session::instance('database');
 /**
  * Set the routes. Each route must have a minimum of a name, a URI and a set of
  * defaults for the URI.
  */
+Route::set('ajax', '<controller>/<action>(/<id>)')->defaults(
+    [
+        'controller' => 'ajax',
+    ]
+);
+Route::set('migrations', '<controller>/<action>(/<id>)')->defaults(
+    [
+        'controller' => 'migrate',
+    ]
+);
+
+Route::set('verify', '<controller>/<action>/<id>')->defaults(
+    [
+        'controller' => 'verify',
+    ]
+);
+
 Route::set('default', '(<controller>(/<action>(/<id>)))')->defaults(
-        [
-            'controller' => 'forms',
-            'action' => 'index',
-        ]
-    );
-Route::set('ajax', '(<controller>(/<action>(/<id>)))');
+    [
+        'controller' => 'forms',
+        'action' => 'index',
+    ]
+);

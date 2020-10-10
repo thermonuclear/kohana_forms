@@ -2,8 +2,13 @@
     display: none;
 }
 
-.el-main {
-    max-width: 1024px;
+.container {
     margin: 0 auto;
-    border: 1px solid #DCDFE6;
+    border: 1px solid #95999c;
+    padding-bottom: 20px;
+}
+form {
+    margin: 20px;
+    padding: 10px;
+    border: 1px solid #95999c;
 }
